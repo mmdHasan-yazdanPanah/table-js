@@ -1,0 +1,44 @@
+$font-family-base: 'iran Yekan', 'iran Sans';
+
+@import '../node_modules/bootstrap/scss/bootstrap-reboot';
+@import '../node_modules/bootstrap/scss/bootstrap-grid';
+@import '../node_modules/bootstrap/scss/utilities';
+@import '../node_modules/bootstrap/scss/type';
+@import '../node_modules/bootstrap/scss/tables';
+@import '../node_modules/bootstrap/scss/forms';
+@import '../node_modules/bootstrap/scss/custom-forms';
+@import '../node_modules/bootstrap/scss/pagination';
+
+@import './base/typography';
+
+input[type='text'] {
+    text-align: right;
+    max-width: 8rem;
+    margin-bottom: 1rem;
+    direction: rtl;
+}
+
+select {
+    text-align: right;
+    max-width: 8rem;
+    direction: rtl;
+}
+
+body {
+    direction: rtl;
+}
+
+.table-editable {
+    cursor: pointer;
+    transition: all ease-out 0.05s;
+}
+
+.table-editable:hover {
+    background-color: #f6f5f5;
+    color: #ee6f57;
+}
+
+.pagination {
+    direction: ltr;
+    // float: left;
+}
