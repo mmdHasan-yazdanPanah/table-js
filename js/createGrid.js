@@ -1,5 +1,134 @@
+class Sort {
+    constructor(obj) {
+        this.fullData = obj.data;
+        this.data = obj.data;
+    }
+
+    sort(columnName, columnType, sortType) {
+        // const target = event.currentTarget;
+
+        // if (this.lastSortTarget == null) {
+        //     this.oldSort = this.data;
+        // }
+
+        // this.clearSort(target);
+
+        // this.lastSortTarget = target;
+
+        // const type = sortType[target.selectedIndex];
+
+        const sortData = [...this.data];
+
+        console.log('[sort sortData]', sortData);
+        console.log('[sort columnName]', columnName);
+
+        if (columnType === 'string') {
+            sortData.sort((a, b) => {
+                return a[columnName].localeCompare(b[columnName]);
+            });
+        }
+
+        if (columnType === 'number') {
+            sortData.sort((a, b) => a[columnName] - b[columnName]);
+        }
+
+        if (sortType === 'down') {
+            sortData.reverse();
+        }
+
+        console.log('[sort sortData res]', sortData);
+
+        this.data = sortData;
+
+        // this.clearBody();
+
+        // let paginationNav;
+        // if (this.pagination) {
+        //     paginationNav = this.createPage();
+        // }
+
+        // this.createBody();
+
+        // if (paginationNav) {
+        //     document.querySelector(this.root).appendChild(paginationNav);
+        //     this.paginationEl = paginationNav;
+        // }
+        // console.log('sort');
+
+        return this.data;
+    }
+}
+
+class Search {
+    constructor(obj) {
+        this.data = obj.data;
+    }
+
+    search(textSearch, columnName) {
+        // const target = event.currentTarget;
+
+        if (this.lastFocusSearch !== columnName && this.lastFocusSearch != null) {
+            this.filter[this.lastFocusSearch] = this.oldData;
+        }
+        if (target.value === '') {
+            this.filter[columnName] = this.fullData;
+        }
+        if (!this.filter.hasOwnProperty(columnName)) {
+            this.filter[columnName] = this.fullData;
+        }
+        const data = [];
+        this.fullData.forEach((row) => {
+            let has = true;
+            Object.values(this.filter).forEach((value) => {
+                if (!value.includes(row)) {
+                    has = false;
+                }
+            });
+            if (has) data.push(row);
+        });
+        const searchData = [];
+        data.forEach((row) => {
+            if (row[columnName].toString().search(target.value) > -1) {
+                searchData.push(row);
+            }
+        });
+        const columnFiltered = [];
+        this.fullData.forEach((row) => {
+            if (row[columnName].toString().search(target.value) > -1) {
+                columnFiltered.push(row);
+            }
+        });
+        this.oldData = columnFiltered;
+
+        this.data = searchData;
+
+        this.lastFocusSearch = columnName;
+
+        this.clearBody();
+
+        let paginationNav;
+        if (this.pagination) {
+            paginationNav = this.createPage();
+        }
+
+        this.createBody();
+
+        if (paginationNav) {
+            document.querySelector(this.root).appendChild(paginationNav);
+            this.paginationEl = paginationNav;
+        }
+
+        console.log(this);
+
+        target.focus();
+    }
+
+    fastSeacrh() {}
+}
+
 class CreateGrid {
     constructor(obj) {
+        // super(data);
         this.root = obj.root;
         this.columns = obj.columns;
         this.fullData = obj.data;
@@ -9,17 +138,18 @@ class CreateGrid {
         this.columnsIndex = [];
         this.tableBody = document.createElement('tbody');
         this.lastFocusSearch = null;
-        this.filter = {};
+        this.filter = {}; // USE IN FILTER SERACH
         this.lastSortTarget = null;
         this.insertIndex = obj.insertIndex;
         this.indexNameProperty = 'index';
         this.firstLoad = false;
-        this.pagination = obj.hasOwnProperty('pagination');
-        if (this.pagination) this.itemPerPage = obj.pagination;
-        if (this.pagination) this.currenPage = 0;
-        if (this.pagination) this.allPagesData = 0;
+        this.pagination = obj.hasOwnProperty('pagination'); // USE IN PAGINATION
+        if (this.pagination) this.itemPerPage = obj.pagination; // USE IN PAGINATION
+        if (this.pagination) this.currenPage = 0; // USE IN PAGINATION
+        if (this.pagination) this.allPagesData = 0; // USE IN PAGINATION
     }
 
+    // UNIQUE METHOD FOR THIS CLASS
     addIndex() {
         console.log('[addIndex]', this);
 
@@ -37,6 +167,7 @@ class CreateGrid {
         console.log('[addIndex]', this);
     }
 
+    // UNIQUE METHOD FOR THIS CLASS
     createHead() {
         const tableHead = document.createElement('thead');
         tableHead.className = 'thead-dark';
@@ -100,6 +231,7 @@ class CreateGrid {
         console.log('create Head');
     }
 
+    // UNIQUE METHOD FOR THIS CLASS
     createBody() {
         let currentData = [];
 
@@ -134,6 +266,7 @@ class CreateGrid {
         document.querySelector(this.root).appendChild(this.table);
     }
 
+    // UNIQUE METHOD FOR THIS CLASS
     clearBody() {
         if (this.table.contains(this.tableBody)) {
             this.table.removeChild(this.tableBody);
@@ -215,26 +348,7 @@ class CreateGrid {
 
             const type = sortType[target.selectedIndex];
 
-            const sortData = [...this.data];
-
-            console.log('[sort]', sortData);
-            console.log('[sort]', columnName);
-
-            if (columnType === 'string') {
-                sortData.sort((a, b) => {
-                    return a[columnName].localeCompare(b[columnName]);
-                });
-            }
-
-            if (columnType === 'number') {
-                sortData.sort((a, b) => a[columnName] - b[columnName]);
-            }
-
-            if (type === 'down') {
-                sortData.reverse();
-            }
-
-            console.log('[sort]', sortData);
+            const sortData = new Sort({ data: this.data }).sort(columnName, columnType, type);
 
             this.data = sortData;
 
@@ -251,7 +365,6 @@ class CreateGrid {
                 document.querySelector(this.root).appendChild(paginationNav);
                 this.paginationEl = paginationNav;
             }
-            console.log('sort');
         })();
     }
 
@@ -443,6 +556,7 @@ class CreateGrid {
     }
 
     create() {
+        console.log('[First This]', this);
         if (!this.checkError()) {
             if (this.insertIndex) {
                 this.addIndex();
@@ -502,7 +616,8 @@ const data = [
     { city: 'شیراز', population: 10000000, distance: 312564897 },
     { city: 'اصفحان', population: 20000000, distance: 222564897 },
 ];
-const grid = new CreateGrid({
+
+/* const grid = new CreateGrid({
     root: '#root',
     columns: [
         {
@@ -533,6 +648,18 @@ const grid = new CreateGrid({
     data: data,
     insertIndex: true,
     pagination: 3,
+}); */
+
+// grid.create();
+
+const sort = new Sort({
+    data: data,
 });
 
-grid.create();
+sort.sort('city', 'string', 'down');
+
+const search = new Search({
+    data: data,
+});
+
+search.search('ب', 'city');
