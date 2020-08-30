@@ -157,14 +157,6 @@ class Pageination {
         this.allPagesData;
     }
 
-    combineThis(thisObj) {
-        Object.keys(this).forEach((key) => {
-            if (thisObj.hasOwnProperty(key)) {
-                thisObj[key] = this[key];
-            }
-        });
-    }
-
     getAllPagesData(itemPerPage) {
         this.allPagesData = [];
         let data = [...this.data];
