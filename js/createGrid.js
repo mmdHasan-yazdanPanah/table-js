@@ -162,23 +162,23 @@ class Pageination {
 
 const data = [
     { city: 'بوشهر', population: 1000000, distance: 12564897 },
-    { city: 'تهران', population: 40000000, distance: 412564897 },
+    { city: 'تهران', population: 40000000, distance: 422564897 },
     { city: 'شیراز', population: 10000000, distance: 312564897 },
     { city: 'اصفحان', population: 20000000, distance: 222514897 },
 ];
 
-// const sort = new Sort({
+// const sortClass = new Sort({
 //     data: data,
 // });
 
-// sort.sort('city', 'string', 'up');
-// sort.sort('population', 'number', 'up');
+// sortClass.sort('city', 'string', 'up');
+// sortClass.sort('population', 'number', 'up');
 
 // const search = new Search({
 //     data: data,
 // });
 
-// search.search('با', 'city');
+// search.search('ا', 'city');
 // search.clearSearch();
 // search.search(1, 'distance');
 // search.fastSeacrh('ا');
