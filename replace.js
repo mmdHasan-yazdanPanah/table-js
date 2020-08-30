@@ -157,6 +157,14 @@ class Pageination {
         this.allPagesData;
     }
 
+    combineThis(thisObj) {
+        Object.keys(this).forEach((key) => {
+            if (thisObj.hasOwnProperty(key)) {
+                thisObj[key] = this[key];
+            }
+        });
+    }
+
     getAllPagesData(itemPerPage) {
         this.allPagesData = [];
         let data = [...this.data];
@@ -471,7 +479,7 @@ class CreateTable {
         pageBefore.appendChild(pageBeforeLink);
         pagination.appendChild(pageBefore);
 
-        this.allPagesData = new Pageination({ data: this.data }).getAllPagesData(this.itemPerPage);
+        this.allPagesData = new Pageination({ data: data }).getAllPagesData(this.itemPerPage);
 
         for (let i = 1; i <= this.allPagesData.length; i++) {
             const page = document.createElement('li');
@@ -660,6 +668,7 @@ class CreateTable {
             document.querySelector('body').style.height = document.querySelector('body').clientHeight + 'px';
         }
     }
+
     // UNIQUE METHOD FOR THIS CLASS
     checkError() {
         let err = false;
@@ -729,14 +738,17 @@ const grid = new CreateTable({
 
 grid.create();
 
-const sort = new Sort({
-    data: data,
-});
+// const sort = new Sort({
+//     data: data,
+// });
 
-sort.sort('city', 'string', 'down');
+// sort.sort('city', 'string', 'down');
 
-const search = new Search({
-    data: data,
-});
+// const search = new Search({
+//     data: data,
+// });
 
-search.search('ب', 'city');
+// search.search('ب', 'city');
+
+// const page = new Pageination({ data: data });
+// console.log(page.getAllPagesData(3));
